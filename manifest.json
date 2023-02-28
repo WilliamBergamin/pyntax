@@ -4,7 +4,7 @@
     "major_version": 2
   },
   "display_information": {
-    "name": "Testaflow"
+    "name": "Pyntax"
   },
   "features": {
     "app_home": {
@@ -27,9 +27,9 @@
     "function_runtime": "remote"
   },
   "functions": {
-    "sample_tests": {
-      "title": "Test Samples",
-      "description": "This function executes the sample tests and returns the report",
+    "grammar_suggestion": {
+      "title": "Grammar advisor",
+      "description": "This function suggest grammar improvements to text",
       "input_parameters": {
         "properties": {
           "text": { "type": "string" }
@@ -37,18 +37,18 @@
       },
       "output_parameters": {
         "properties": {
-          "suggestion_msg": {
+          "suggestion": {
             "type": "slack#/types/blocks"
           }
         },
-        "required": ["suggestion_msg"]
+        "required": ["suggestion"]
       }
     }
   },
   "workflows": {
-    "execute_sample_tests": {
-      "title": "Execute sample tests",
-      "description": "This workflow executes the sample tests and reports on them in a channel",
+    "grammar_advisor": {
+      "title": "Grammar advisor",
+      "description": "This workflow seeks for a grammar suggestion from provided text",
       "input_parameters": {
         "properties": {
           "interactivity": {
@@ -65,9 +65,8 @@
           "id": "0",
           "function_id": "slack#/functions/open_form",
           "inputs": {
-            "title": "Correct my text",
-            "submit_label": "Request",
-            "description": "Please enter text that you want advice on",
+            "title": "Seek grammar suggestion",
+            "submit_label": "Submit",
             "interactivity": "{{inputs.interactivity}}",
             "fields": {
               "required": ["text"],
@@ -75,6 +74,7 @@
                 {
                   "name": "text",
                   "title": "Text",
+                  "description": "Text that could potentially be grammatically improved",
                   "type": "string"
                 }
               ]
@@ -83,7 +83,7 @@
         },
         {
           "id": "1",
-          "function_id": "#/functions/sample_tests",
+          "function_id": "#/functions/grammar_suggestion",
           "inputs": {
             "text": "{{steps.0.fields.text}}"
           }
@@ -94,7 +94,7 @@
           "inputs": {
             "channel_id": "{{inputs.channel_id}}",
             "user_id": "{{inputs.interactivity.interactor.id}}",
-            "message": "{{steps.1.suggestion_msg}}"
+            "message": "{{steps.1.suggestion}}"
           }
         }
       ]

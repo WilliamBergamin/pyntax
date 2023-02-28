@@ -1,8 +1,8 @@
 {
     "type": "shortcut",
-    "name": "Request Sample Tests",
-    "description": "Submit a request to execute samples tests",
-    "workflow": "#/workflows/execute_sample_tests",
+    "name": "Seek grammar advice",
+    "description": "Trigger a request to seek grammar advice for text",
+    "workflow": "#/workflows/grammar_advisor",
     "shortcut": {},
     "inputs": {
         "interactivity": {
