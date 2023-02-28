@@ -1,4 +1,8 @@
-slack-bolt
-pytest
-flake8==6.0.0
+slack-bolt==1.16.1.dev0
+flake8==5.0.4
 black==22.10.0
+torch==1.13.1
+setuptools==67.4.0
+wheel==0.38.4
+spacy[apple]
+git+https://github.com/PrithivirajDamodaran/Gramformer.git

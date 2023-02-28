@@ -1,58 +1,104 @@
 {
+  "$schema": "https://raw.githubusercontent.com/slackapi/manifest-schema/main/manifest.schema.json",
   "_metadata": {
-      "major_version": 1,
-      "minor_version": 1
+    "major_version": 2
   },
   "display_information": {
-      "name": "Bolt Template App"
+    "name": "Testaflow"
   },
   "features": {
-      "app_home": {
-          "home_tab_enabled": true,
-          "messages_tab_enabled": false,
-          "messages_tab_read_only_enabled": true
-      },
-      "bot_user": {
-          "display_name": "Bolt Template App",
-          "always_online": false
-      },
-      "shortcuts": [
-          {
-              "name": "Run sample shortcut",
-              "type": "global",
-              "callback_id": "sample_shortcut_id",
-              "description": "Runs a sample shortcut"
-          }
-      ],
-      "slash_commands": [
-          {
-              "command": "/sample-command",
-              "description": "Runs a sample command",
-              "should_escape": false
-          }
-      ]
+    "app_home": {
+      "messages_tab_enabled": true,
+      "messages_tab_read_only_enabled": true
+    }
   },
   "oauth_config": {
-      "scopes": {
-          "bot": [
-              "channels:history",
-              "chat:write",
-              "commands"
-          ]
-      }
+    "scopes": {
+      "bot": ["chat:write", "chat:write.public"]
+    }
   },
   "settings": {
-      "event_subscriptions": {
-          "bot_events": [
-              "app_home_opened",
-              "message.channels"
-          ]
+    "org_deploy_enabled": true,
+    "interactivity": {
+      "is_enabled": true
+    },
+    "socket_mode_enabled": true,
+    "token_rotation_enabled": false,
+    "function_runtime": "remote"
+  },
+  "functions": {
+    "sample_tests": {
+      "title": "Test Samples",
+      "description": "This function executes the sample tests and returns the report",
+      "input_parameters": {
+        "properties": {
+          "text": { "type": "string" }
+        }
       },
-      "interactivity": {
-          "is_enabled": true
+      "output_parameters": {
+        "properties": {
+          "suggestion_msg": {
+            "type": "slack#/types/blocks"
+          }
+        },
+        "required": ["suggestion_msg"]
+      }
+    }
+  },
+  "workflows": {
+    "execute_sample_tests": {
+      "title": "Execute sample tests",
+      "description": "This workflow executes the sample tests and reports on them in a channel",
+      "input_parameters": {
+        "properties": {
+          "interactivity": {
+            "type": "slack#/types/interactivity"
+          },
+          "channel_id": {
+            "type": "slack#/types/channel_id"
+          }
+        },
+        "required": ["interactivity", "channel_id"]
       },
-      "org_deploy_enabled": false,
-      "socket_mode_enabled": true,
-      "token_rotation_enabled": false
-  }
+      "steps": [
+        {
+          "id": "0",
+          "function_id": "slack#/functions/open_form",
+          "inputs": {
+            "title": "Correct my text",
+            "submit_label": "Request",
+            "description": "Please enter text that you want advice on",
+            "interactivity": "{{inputs.interactivity}}",
+            "fields": {
+              "required": ["text"],
+              "elements": [
+                {
+                  "name": "text",
+                  "title": "Text",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "1",
+          "function_id": "#/functions/sample_tests",
+          "inputs": {
+            "text": "{{steps.0.fields.text}}"
+          }
+        },
+        {
+          "id": "2",
+          "function_id": "slack#/functions/send_ephemeral_message",
+          "inputs": {
+            "channel_id": "{{inputs.channel_id}}",
+            "user_id": "{{inputs.interactivity.interactor.id}}",
+            "message": "{{steps.1.suggestion_msg}}"
+          }
+        }
+      ]
+    }
+  },
+  "outgoing_domains": []
 }

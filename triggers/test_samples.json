@@ -1,0 +1,15 @@
+{
+    "type": "shortcut",
+    "name": "Request Sample Tests",
+    "description": "Submit a request to execute samples tests",
+    "workflow": "#/workflows/execute_sample_tests",
+    "shortcut": {},
+    "inputs": {
+        "interactivity": {
+            "value": "{{data.interactivity}}"
+        },
+        "channel_id": {
+            "value": "{{data.channel_id}}"
+        }
+    }
+}
