@@ -41,10 +41,18 @@ python3 -m venv .venv
 source .venv/bin/activate
 
 # Install the dependencies
-pip install -r requirements.txt
+bash setup.sh
+```
 
-# Start your local server
-python3 app.py
+In `site-packages/errant/__init__.py` update line 11 -> 16 with the bellow
+
+```python
+supported = {"en": "en_core_web_sm"}
+if lang not in supported:
+    raise Exception("%s is an unsupported or unknown language" % lang)
+
+# Load spacy
+nlp = nlp or spacy.load(supported[lang], disable=["ner"])
 ```
 
 #### Linting

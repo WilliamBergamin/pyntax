@@ -9,8 +9,8 @@ import torch
 
 
 torch.manual_seed(1212)
+nlp = spacy.load("en_core_web_sm")
 gramformer = Gramformer(models=1)
-nlp = spacy.load("en")
 
 
 def grammar_suggestion(event, complete: Complete, logger: Logger):
@@ -44,7 +44,7 @@ def grammar_suggestion(event, complete: Complete, logger: Logger):
 
 def sentence_reader(text: str) -> Iterator[str]:
     for sentence in nlp(text).sents:
-        yield sentence.string.strip()
+        yield str(sentence).strip()
 
 
 def get_suggestion_mrkdwn(
