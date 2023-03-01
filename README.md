@@ -1,40 +1,36 @@
-# Bolt for Python Template App
+# Pyntax
 
-This is a generic Bolt for Python template app used to build out Slack apps.
+This is a project used to demo the next generation slack platform in python.
 
-Before getting started, make sure you have a development workspace where you have permissions to install apps. If you don’t have one setup, go ahead and [create one](https://slack.com/create).
+It is an application that allows users to send test and receive an AI suggestion
+on how to improve the text.
 
-## Installation
+## Setup
 
-#### Create a Slack App
+Before getting started, make sure you have a development workspace where you
+have permissions to install apps. If you don’t have one set up, go ahead and
+[create one](https://slack.com/create). Also, please note that the workspace
+requires any of [the Slack paid plans](https://slack.com/pricing).
 
-1. Open [https://api.slack.com/apps/new](https://api.slack.com/apps/new) and choose "From an app manifest"
-2. Choose the workspace you want to install the application to
-3. Copy the contents of [manifest.json](./manifest.json) into the text box that says `*Paste your manifest code here*` (within the JSON tab) and click *Next*
-4. Review the configuration and click *Create*
-5. Click *Install to Workspace* and *Allow* on the screen that follows. You'll then be redirected to the App Configuration dashboard.
+### Install the Slack CLI
 
-#### Environment Variables
+To use this sample, you first need to install and configure the Slack CLI.
+Step-by-step instructions can be found in our
+[Quickstart Guide](https://api.slack.com/future/quickstart).
 
-Before you can run the app, you'll need to store some environment variables.
+### Python
 
-1. Open your apps configuration page from this list, click **OAuth & Permissions** in the left hand menu, then copy the Bot User OAuth Token. You will store this in your environment as `SLACK_BOT_TOKEN`.
-2. Click ***Basic Information** from the left hand menu and follow the steps in the App-Level Tokens section to create an app-level token with the `connections:write` scope. Copy this token. You will store this in your environment as `SLACK_APP_TOKEN`.
+This project requires python version **3.7.9** in order to execute properly,
+ensure that this is your installed version with `python --version`
 
-```zsh
-# Replace with your app token and bot token
-export SLACK_BOT_TOKEN=<your-bot-token>
-export SLACK_APP_TOKEN=<your-app-token>
-```
-
-### Setup Your Local Project
+### Clone the Sample App
 
 ```zsh
 # Clone this project onto your machine
-git clone https://github.com/slackapi/bolt-python-template.git
+git clone https://github.com/WilliamBergamin/pyntax.git
 
 # Change into this project directory
-cd bolt-python-starter-template
+cd pyntax
 
 # Setup your python virtual environment
 python3 -m venv .venv
@@ -69,12 +65,30 @@ black .
 
 ### `manifest.json`
 
-`manifest.json` is a configuration for Slack apps. With a manifest, you can create an app with a pre-defined configuration, or adjust the configuration of an existing app.
+`manifest.json` is a configuration for Slack apps. With a manifest, you can
+create an app with a pre-defined configuration, or adjust the configuration of
+an existing app. This is also were you can define your functions and workflows
+for Slack.
+
+### `/triggers`
+
+All trigger configuration files live in here - for this example,
+`time_off_request.json` is the trigger config for a trigger that starts the Time
+Off Request workflow initialized in `manifest.json`.
 
 ### `app.py`
 
-`app.py` is the entry point for the application and is the file you'll run to start the server. This project aims to keep this file as thin as possible, primarily using it as a way to route inbound requests.
+`app.py` is the entry point for the application and is the file you'll run to
+start the server. This project aims to keep this file as thin as possible,
+primarily using it as a way to route inbound requests.
 
-### `/listeners`
+### `/functions`
 
-Every incoming request is routed to a "listener". Inside this directory, we group each listener based on the Slack Platform feature used, so `/listeners/shortcuts` handles incoming [Shortcuts](https://api.slack.com/interactivity/shortcuts) requests, `/listeners/views` handles [View submissions](https://api.slack.com/reference/interaction-payloads/views#view_submission) and so on.
+Functions are reusable building blocks of automation that accept inputs, perform
+calculations, and provide outputs. Functions can be used independently or as
+steps in workflows.
+
+### `slack.json`
+
+Used by the CLI to interact with the project's SDK dependencies. It contains
+script hooks that are executed by the CLI and implemented by the SDK.
