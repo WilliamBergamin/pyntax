@@ -1,5 +1,5 @@
 setuptools==67.4.0
-slack-bolt==1.16.1.dev0
+slack-bolt==1.16.2.dev1
 flake8==5.0.4
 black==22.10.0
 torch==1.13.1
