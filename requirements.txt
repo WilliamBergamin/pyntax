@@ -4,5 +4,5 @@ flake8==5.0.4
 black==22.10.0
 torch==1.13.1
 wheel==0.38.4
-spacy[apple]==3.5.0
+spacy[apple]==3.5.1
 git+https://github.com/PrithivirajDamodaran/Gramformer.git
