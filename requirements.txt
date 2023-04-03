@@ -2,7 +2,7 @@ setuptools==67.4.0
 slack-bolt==1.16.2.dev1
 flake8==5.0.4
 black==22.10.0
-torch==1.13.1
+torch==2.0.0
 wheel==0.38.4
 spacy[apple]==3.5.0
 git+https://github.com/PrithivirajDamodaran/Gramformer.git
